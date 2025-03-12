@@ -31,29 +31,32 @@ function getHumanChoice() {
             return "";
     }
 }
-function playGame() {
-    let humanScore = 0;
-    let computerScore = 0;
-
-    function playRound(humanChoice, computerChoice) {
-        if (humanChoice === computerChoice) {
-            console.log("It's a draw");
-        } else if (humanChoice === "rock" && computerChoice === "scissors" || humanChoice === "paper" && computerChoice === "rock" || humanChoice === "scissors" && computerChoice === "paper") {
-            console.log(`You win!, ${humanChoice} beats ${computerChoice}`);
-            humanScore++;
-        } else {
-            console.log(`You lose!, ${computerChoice} beats ${humanChoice}`);
-            computerScore++;
-        }
+function playRound(humanChoice, computerChoice) {
+    if (humanChoice === computerChoice) {
+        score.textContent = ("It's a draw");
+    } else if (humanChoice === "rock" && computerChoice === "scissors" || humanChoice === "paper" && computerChoice === "rock" || humanChoice === "scissors" && computerChoice === "paper") {
+        score.textContent = (`You win!, ${humanChoice} beats ${computerChoice}`);
+        humanScore++;
+    } else {
+        score.textContent = (`You lose!, ${computerChoice} beats ${humanChoice}`);
+        computerScore++;
     }
-
-    for (let i = 0; i < 5; i++) {
-        playRound(getHumanChoice(), getComputerChoice());
+    if (computerScore === 5) {
+        score.textContent = "You lose!";
+    } else if (humanScore === 5){
+        score.textContent = "You win!";
     }
-
-    console.log(`Final score:
-    you: ${humanScore}
-    computer: ${computerScore}`);
+    score.textContent += ` human:${humanScore}  computer:${computerScore}`;
 }
+const buttons = document.querySelectorAll(".userChoice");
 
-playGame();
+buttons.forEach(button => {
+    button.addEventListener("click", () => {
+        playRound(button.textContent.toLowerCase(), getComputerChoice())
+    });
+})
+
+const score = document.querySelector(".result");
+
+let computerScore = 0;
+let humanScore = 0;
